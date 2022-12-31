@@ -1,0 +1,155 @@
+<!-- table password -->
+
+    <div id="main-details-tb">
+      <!-- table navigation -->
+      <div style="display: flexflex-direction: row-reversejustify-content: space-aroundoverflow-x: hidden">
+
+        <div style="display: flex gap: 30px">
+
+          <button type="button" class="btn btn-primary tbActionsedit" data-bs-toggle="modal" style="height:min-content"
+            data-bs-target="#formNewData" data-path="/actions/new" data-action="new">New</button>
+
+
+          <!-- BACKUP -->
+          <span  class="btn btn-info modal2" href="javascript:void(0)" data-id="${id}" 
+                data-bs-toggle="modal" data-bs-target="#formModal2"
+               data-path="/Actions/backup" data-action="backup" style="height:min-content">
+           Back UP
+          </span>
+          
+
+          <!-- RESTORE -->
+          <span  class="btn btn-primary modal2" href="javascript:void(0)" data-id="${id}" 
+                data-bs-toggle="modal" data-bs-target="#formModal2"
+               data-path="/Actions/restore" data-action="restore" style="height:min-content">
+            Restore
+          </span>
+
+        </div>
+
+        <!-- SEARCH -->
+        <nav style="padding: 0 display: flex">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchBar" />
+        </nav>
+      </div>
+
+      <br /><br /><br />
+
+
+      <!-- TABLE -->
+      <div style="width: 100% overflow: auto">
+        <table id="keywords" cellspacing="0" cellpadding="0">
+          <thead>
+            <tr>
+              <th><span>Time</span></th>
+              <th><span>Name</span></th>
+              <th><span>Site</span></th>
+              <th><span>Email</span></th>
+              <th><span>Password</span></th>
+              <th><span>Action</span></th>
+            </tr>
+          </thead>
+
+          <tbody class="data-table" id="tbActions"></tbody>
+        </table>
+      </div>
+
+    </div>
+
+
+  <br />
+
+
+  <!-- FORM NEW AND EDIT DATA -->
+  <div class="modal fade" id="formNewData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- TITLE -->
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+        </div>
+
+        <form method="post" id="form">
+
+          <div class="modal-body">
+            <center>
+              <div class="formmm">
+
+                <!-- NAME FORM -->
+                <div class="form-group row">
+                  <label for="name" class="col-sm-2 col-form-label">Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="user_name" id="name" class="form-control" placeholder="name" required autocomplete="off"/>
+                  </div>
+                </div>
+
+                <!-- EMAIL FORM -->
+                <div class="form-group row">
+                  <label for="email" class="col-sm-2 col-form-label">Email</label>
+                  <div class="col-sm-10">
+                    <input type="email" name="email" id="email" class="form-control" placeholder="email" required autocomplete="off"/>
+                  </div>
+                </div>
+
+                <!-- SITE FORM -->
+                <div class="form-group row">
+                  <label for="site" class="col-sm-2 col-form-label">Website</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="site" id="site" class="form-control" placeholder="site" autocomplete="off"/>
+                  </div>
+                </div>
+
+                <!-- PASSWORD FORM -->
+                <div class="form-group row">
+                  <label for="password" class="col-sm-2 col-form-label">Password</label>
+                  <div class="col-sm-10" style="display: flex">
+                    <input type="text" name="password" id="password" class="form-control" placeholder="password" required autocomplete="off"/>
+                    <button class="generate_button" type="button" class="btn btn-info">
+                      Rand
+                    </button>
+                  </div>
+                </div>
+
+                <!-- NOTES FORM -->
+                <div class="form-group row">
+                  <label for="note" class="col-sm-2 col-form-label">Notes</label>
+                  <div class="col-sm-10">
+                    <textarea name="notes" id="note" style="width: 100%" rows="5"></textarea>
+                  </div>
+                </div>
+
+                <!-- ID -->
+                <input type="hidden" name="id" id="id">
+              </div>
+            </center>
+          </div>
+
+          <!-- BUTTON CLOSE OR SEND -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="sendform"></button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM DELETE BACKUP RESTORE -->
+  <div class="modal fade" id="formModal2" tabindex="-1" aria-labelledby="modal2" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modal2Title"></h1>
+        </div>
+        <form action="" method="post" id="form_modal2" encType="multipart/form-data">
+          <div class="modal-body" id="modal2-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="modal2Submit"></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

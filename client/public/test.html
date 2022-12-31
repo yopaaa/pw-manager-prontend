@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    hello world
+    <div style="display: flex;">
+      <div id="menit"></div>:
+      <div id="detik"></div>
+    </div>
+    <script>
+      let count = 300;
+      
+      setInterval(() => {
+        let y = Math.floor(count / 60);
+        let f = count - y * 60;
+
+        document.querySelector("#menit").innerHTML = y;
+        document.querySelector("#detik").innerHTML = f;
+        count--;
+      }, 1000);
+    </script>
+  </body>
+</html>

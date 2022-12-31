@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('./template/head.ejs') %>
+</head>
+
+<body>
+
+  <%- include('./template/navigation.ejs')  %> 
+
+
+  <br /><br /><br />
+
+  
+  <% if (tab == 'doc') { %>
+    <%- include('./template/home-content/doc-content.ejs')  %> 
+  <% } else { %>
+    <%- include('./template/home-content/pw-content.ejs')  %> 
+
+    <script src="js/tables.js"></script>
+    <script src="js/form.js"></script>
+    <script src="js/random_password.js"></script>
+  <% } %>
+
+ 
+
+  <br/><br/><br/><br/><br/><br/><br/>
+  <footer>
+    <div>
+      <center>
+        <p>Folder path : <%= path %>
+        </p>
+        <p>ip address : <%= ip %>
+        </p>
+      </center>
+    </div>
+  </footer>
+
+
+</body>
+
+</html>
