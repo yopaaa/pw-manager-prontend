@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap');
+
+* {
+    font-family: 'Ubuntu';
+    font-size: 14px;
+}
+
+body {
+    background-image: url('http://localhost:3000/image/header-bg.jpg');
+    /* background-color: rgb(24, 26, 27); */
+    color: rgb(209, 205, 199);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  * {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
