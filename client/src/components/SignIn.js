@@ -1,70 +1,97 @@
-import React, {useState} from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
+import React, { useState, useEffect } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import Ping from "./Ping"
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [message, setMessage] = useState("");
-  const hostname = `http://${window.location.hostname}:40100`
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("")
+  const [pwd, setPwd] = useState("")
+  const [message, setMessage] = useState("")
+  const hostname = process.env.REACT_APP_SERVER_END_POINT
+  const navigate = useNavigate()
 
+  // useEffect(() => {
+  //   const test = () => {
+  //     axios
+  //       .get(`${hostname}/ping`)
+  //       .then(() => {
+  //         navigate("/home")
+  //       })
+  //       .catch((reason) => console.log(reason))
+  //   }
+
+  //   test()
+  // }, [])
+  Ping()
 
   async function login(event) {
-    event.preventDefault();
-    const data = {email,pwd};
+    event.preventDefault()
+    const data = { email, pwd }
     try {
-      await axios.post(`${hostname}/sign/in`, data, )
-      navigate('/')
+      await axios.post(`${hostname}/sign/in`, data)
+      navigate("/home")
     } catch (error) {
-      // console.log(error.response.data.error);
-      setMessage(error.response.data.error);
+      document.querySelector("#errorMessage-login").classList.replace("d-none", "d-block")
+      setMessage(error.response.data.error)
     }
   }
 
   return (
-    <div className="login">
-      <h1>Sign in</h1>
-      <p>{message}</p>
-      <br />
+    <div className="container-login">
+      <div className="login-box">
+        <h2>Sign in</h2>
+        <p className="errorMessage-login d-none" id="errorMessage-login">
+          ⚠ {message}
+        </p>
 
-      <form onSubmit={login} method="post">
-        <div>
-          <label for="text">Email</label>
-          <div>
+        <form onSubmit={login} method="post" className="d-block " id="registerForm">
+          <div className="user-box">
             <input
               type="email"
               name="email"
+              className="formInput"
               id="email"
-              placeholder="Email"
               required
+              autoComplete="off"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
             />
+            <label>Email</label>
           </div>
-        </div>
-        <br />
 
-        <div>
-          <label for="password">Password</label>
-          <div>
+          <div className="user-box">
             <input
               type="password"
-              name="password"
-              id="password"
-              placeholder="password"
-              autocomplete="off"
+              name="pwd"
+              id="pwd"
+              className="formInput"
+              autoComplete="off"
+              required
               value={pwd}
               onChange={(event) => setPwd(event.target.value)}
             />
+            <label>Password</label>
           </div>
-        </div>
-        <br />
-        <button type="submit">Sign in</button>
-      </form>
-    </div>
-  );
-};
 
-export default SignIn;
+          <a href="#" className="buttonSubmit-signin" style={{ fontSize: 12 }}>
+            Forget password?
+          </a>
+          <br />
+          <br />
+
+          <div className="form-button">
+            <a href="/signup" className="buttonSubmit-signin">
+              register
+            </a>
+
+            <button type="submit" className="buttonSubmit" onClick={(e) => setMessage("")}>
+              Sign in
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+export default SignIn

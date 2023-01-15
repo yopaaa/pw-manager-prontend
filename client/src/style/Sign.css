@@ -1,26 +1,21 @@
-body {
-    background-color:#212121;
-    color: white;
-}
-
-.container{
+.container-login {
     display: flex;
-    position: absolute;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
 .login-box {
-    width: 40%;
+    width: 30%;
     padding: 40px;
-    background: rgba(56, 56, 56, 0.8);
+    background: rgb(245, 242, 231, 0.4);
     border-radius: 10px;
 }
 
 .login-box h2 {
     margin: 0 0 30px;
     padding: 0;
-    color: #fff;
+    /* color: #fff; */
     text-align: center;
 }
 
@@ -35,7 +30,7 @@ body {
     color: #fff;
     margin-bottom: 30px;
     border: none;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #F5F2E7;
     outline: none;
     background: transparent;
 }
@@ -51,30 +46,41 @@ body {
     background-color: transparent;
 }
 
-.errorMessage{
-    font-size: 12px;
-    color: red;
-    padding-bottom: 20px;
+.errorMessage-login {
+    font-size: 13px;
+    text-transform: capitalize;
+    padding: 20px;
+    background-color: #f44336;
+    /* Red */
+    color: white;
+    margin-bottom: 15px;
 }
 
-.buttonSubmit{
+.buttonSubmit {
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    background-color: rgb(241, 241, 241);
-}
-.buttonSubmit:hover{
-    background-color:rgb(148, 148, 148) ;
+    background-color: rgb(38, 102, 207);
 }
 
-.buttonSubmit-signin{
+.buttonSubmit:hover {
+    background-color: rgb(0, 72, 189);
+}
+
+.buttonSubmit-signin {
     padding: 10px;
     background: none;
     color: white;
 }
 
-.form-button{
+.form-button {
     display: flex;
     justify-content: space-between;
 }
 
+@media screen and (max-width: 700px) {
+    .login-box {
+        width: 80%;
+        padding: 40px;
+    }
+  }
