@@ -9,6 +9,12 @@ this app run in nodejs envirotment made with ReactJS
 
 In the project directory, you can run:
 
+# env file
+
+```html
+REACT_APP_SERVER_END_POINT=<backend endpoint>http://localhost:40100
+```
+
 ### `npm start`
 
 Runs the app in the development mode.\
