@@ -54,9 +54,15 @@ const Home = () => {
   const [category, setcategory] = useState(["any"])
   const [selectcategory, setselectcategory] = useState("")
 
+  const [backupDataId, setbackupDataId] = useState("")
+  const [backupDataCode, setbackupDataCode] = useState()
+  const [setbackupDataIdmessage, setsetbackupDataIdmessage] = useState("")
+
   const [DeleteDataModal, setDeleteDataModal] = useState(false)
   const [wantDeleteData, setwantDeleteData] = useState({ name: "", _id: "", message: "" })
   const [DeleteDataButton, setDeleteDataButton] = useState(true)
+
+  const [BackupDataModal, setBackupDataModal] = useState(false)
 
   const [cookies, setCookie] = useCookies(["user"])
 
@@ -128,6 +134,22 @@ const Home = () => {
     setCookie("page", page, { path: "/" })
   }
 
+  function getTable(pages = 0) {
+    Func.showElement("table-loading")
+    setTimeout(() => {
+      axios
+        .get(`${hostname}/pw_v1?page=${pages}`)
+        .then((data) => {
+          Func.hideElement("table-loading")
+          setTableData(data)
+          // result(data)
+        })
+        .catch((error) => {
+          console.log(error.message)
+        })
+    }, 1000)
+  }
+
   function deleteData(event) {
     event.preventDefault()
     setDeleteDataButton(true)
@@ -139,7 +161,7 @@ const Home = () => {
         .then((value) => {
           Func.hideOrShowElement("delete-loading")
           setDeleteDataModal(false)
-          getTable()
+          getTable(cookies.page)
         })
         .catch((error) => {
           Func.hideOrShowElement("delete-loading")
@@ -148,20 +170,7 @@ const Home = () => {
         })
     }, 1500)
   }
-  function getTable(pages = 0) {
-    Func.showElement("table-loading")
-    setTimeout(() => {
-      axios
-        .get(`${hostname}/pw_v1?page=${pages}`)
-        .then((data) => {
-          Func.hideElement("table-loading")
-          setTableData(data)
-        })
-        .catch((error) => {
-          console.log(error.message)
-        })
-    }, 1000)
-  }
+
   function NewData(event) {
     event.preventDefault()
     Func.hideOrShowElement("new-data-loading")
@@ -180,7 +189,7 @@ const Home = () => {
       axios
         .post(`${hostname}/pw_v1`, data)
         .then((value) => {
-          resetAllFormNew()
+          resetAllState()
           getTable()
           Func.hideOrShowElement("new-data-loading")
         })
@@ -215,9 +224,9 @@ const Home = () => {
     axios
       .patch(`${hostname}/pw_v1/${_id}`, data)
       .then((value) => {
-        resetAllFormNew()
+        resetAllState()
         getDetails(_id)
-        getTable(cookies.page)
+        getTable()
       })
       .catch((error) => {
         Func.hideElement("details-data-loading")
@@ -225,7 +234,7 @@ const Home = () => {
       })
   }
 
-  function resetAllFormNew() {
+  function resetAllState() {
     setnewDataModal(false)
     setFormName("")
     setFormEmail("")
@@ -246,6 +255,11 @@ const Home = () => {
     setDetailsDatatag([])
     setDetailsDatacreatedAt("")
     setDetailsDataupdatedAt("")
+    setbackupDataCode("")
+    setbackupDataId("")
+    setBackupDataModal(false)
+    setDeleteDataButton(true)
+    setbackupDataIdmessage("")
 
     setEditDataClassname("d-none")
     setDetailsDataClassname("d-none")
@@ -260,7 +274,7 @@ const Home = () => {
         .get(`${hostname}/pw_v1/search?page=${cookies.page || 0}&q=${formSearch}&category=${selectcategory}`)
         .then((data) => {
           setTableData(data)
-          setselectcategory('')
+          setselectcategory("")
           Func.hideElement("table-loading")
         })
         .catch((error) => {
@@ -295,6 +309,29 @@ const Home = () => {
           console.log(error.message)
         })
     }, 1000)
+  }
+
+  function downloadBackupData(event) {
+    event.preventDefault()
+    Func.showElement("delete-loading")
+    axios
+      .post(`${hostname}/pw_v1/actions/backup?`, { _id: backupDataId, code: backupDataCode }, { responseType: "json" })
+      .then((blobFileData) => {
+        const datas = JSON.stringify(blobFileData.data.payload, null, 3)
+        console.log(datas)
+        const url = window.URL.createObjectURL(new Blob([datas]))
+        // console.log(JSON.stringify(url));
+        const link = document.createElement("a")
+        link.href = url
+        link.download = "download.json"
+        Func.hideElement("delete-loading")
+        link.click()
+        resetAllState()
+      })
+      .catch((err) => {
+        Func.hideElement("delete-loading")
+        setsetbackupDataIdmessage(err.response.data.error)
+      })
   }
 
   return (
@@ -337,7 +374,7 @@ const Home = () => {
         </div>
 
         <div className="button-container">
-          <button type="button" className="btn btn-info" onClick={(ev) => getTable()}>
+          <button type="button" className="btn btn-info" onClick={(ev) => getTable(cookies.page)}>
             Refresh
           </button>
           <button type="button" className="btn btn-primary" onClick={(ev) => setnewDataModal(true)}>
@@ -346,7 +383,7 @@ const Home = () => {
           <button type="button" className="btn btn-success" onClick={(ev) => console.warn(true)}>
             restore
           </button>
-          <button type="button" className="btn btn-warning" onClick={(ev) => console.warn(true)}>
+          <button type="button" className="btn btn-warning" onClick={(ev) => setBackupDataModal(true)}>
             backup
           </button>
         </div>
@@ -374,6 +411,7 @@ const Home = () => {
       </div>
       <hr />
 
+      {/* new data */}
       <Modal isOpen={newDataModal} className="Modal-Root" overlayClassName="Modal-Root">
         <div className="modal-container">
           <h1>Add new data</h1>
@@ -517,7 +555,7 @@ const Home = () => {
             <hr />
 
             <div className="button-modal">
-              <button type="button" className="btn btn-danger" onClick={(ev) => resetAllFormNew()}>
+              <button type="button" className="btn btn-danger" onClick={(ev) => resetAllState()}>
                 close
               </button>
               <button type="submit" className="btn btn-primary">
@@ -528,6 +566,7 @@ const Home = () => {
         </div>
       </Modal>
 
+      {/* details and edit  */}
       <Modal isOpen={detailsDataModal} className="Modal-Root" overlayClassName="Modal-Root">
         <div className="modal-container">
           <h1>{EditDataClassname.includes("d-none") ? "Details " + DetailsData.name : "Edit " + DetailsData.name}</h1>
@@ -656,10 +695,17 @@ const Home = () => {
               {/* DETAILS */}
               <div className={"groub-form " + DetailsDataClassname}>
                 <label htmlFor="pwd">Password</label>
-                <input type={DetailsDatapwdInputType} readOnly value={DetailsDatapwd} id="detailsPassword" className="details d-block" style={{width: '70%'}}/>
+                <input
+                  type={DetailsDatapwdInputType}
+                  readOnly
+                  value={DetailsDatapwd}
+                  id="detailsPassword"
+                  className="details d-block"
+                  style={{ width: "70%" }}
+                />
                 <a
                   href="#"
-                  style={{ width: '30px' }}
+                  style={{ width: "30px" }}
                   onClick={(ev) => {
                     DetailsDatapwdInputType === "text" ? setDetailsDatapwdInputType("password") : setDetailsDatapwdInputType("text")
                   }}>
@@ -782,7 +828,7 @@ const Home = () => {
 
             <div className="button-modal">
               {/* close */}
-              <button type="button" className={"btn btn-primary " + DetailsDataClassname} onClick={(ev) => resetAllFormNew()}>
+              <button type="button" className={"btn btn-primary " + DetailsDataClassname} onClick={(ev) => resetAllState()}>
                 close
               </button>
               {/* cancel */}
@@ -814,6 +860,7 @@ const Home = () => {
         </div>
       </Modal>
 
+      {/* confirm delete */}
       <Modal isOpen={DeleteDataModal} className="Modal-Root" overlayClassName="Modal-Root">
         <div className="modal-container">
           <h1>Confirm delete</h1>
@@ -851,6 +898,74 @@ const Home = () => {
               </button>
               <button type="submit" className="btn btn-danger" disabled={DeleteDataButton}>
                 Delete
+              </button>
+            </div>
+          </form>
+        </div>
+      </Modal>
+
+      {/* backup */}
+      <Modal isOpen={BackupDataModal} className="Modal-Root" overlayClassName="Modal-Root">
+        <div className="modal-container">
+          <h1>Confirm backup</h1>
+          <div className="d-none" id="delete-loading">
+            <Loader />
+          </div>
+          <hr />
+          <form onSubmit={downloadBackupData} method="post">
+            <p>verify code before backup</p>
+            <p style={{ color: "red" }}>{setbackupDataIdmessage}</p>
+
+            <button
+              id="send-verification-code"
+              className="btn btn-info"
+              onClick={() => {
+                document.getElementById("send-verification-code").setAttribute("disabled", "true")
+                axios.post(`${hostname}/pw_v1/actions/verify?`, { responseType: "json" }).then((val) => {
+                  setbackupDataId(val.data.payload._id)
+                })
+              }}>
+              {" "}
+              send verification code
+            </button>
+            <br />
+            <br />
+
+            <div className="groub-form">
+              <label>Code</label>
+              <input
+                type="text"
+                maxLength={6}
+                name="name"
+                id="name"
+                placeholder={wantDeleteData.name}
+                autoComplete="off"
+                required
+                onChange={(ev) => {
+                  setbackupDataCode(ev.target.value)
+                  if (ev.target.value.length >= 5) {
+                    setDeleteDataButton(false)
+                  } else {
+                    setDeleteDataButton(true)
+                  }
+                }}
+              />
+            </div>
+            <br />
+
+            <hr />
+
+            <div className="button-modal">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={(ev) => {
+                  resetAllState()
+                }}>
+                close
+              </button>
+              <button className="btn btn-danger" disabled={DeleteDataButton}>
+                Backup
               </button>
             </div>
           </form>
