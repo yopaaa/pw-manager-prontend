@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import "../style/Sign.css"
-import Func from "./home-component/Func"
+import Func from "./Home/components/js/Func"
 
 const SignUp = () => {
   const [name, setName] = useState("")
