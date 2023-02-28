@@ -6,7 +6,7 @@
 }
 
 body {
-    background-image: url('http://localhost:40101/image/header-bg.jpg');
+    background-image: url('../image/header-bg.jpg');
     /* background-color: rgb(24, 26, 27); */
     color: rgb(209, 205, 199);
 }

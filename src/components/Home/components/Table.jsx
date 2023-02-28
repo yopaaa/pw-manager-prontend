@@ -18,12 +18,14 @@ const Table = () => {
   const { refreshTable, getdatapath } = useSelector((state) => state.HomeState)
 
   useEffect(() => {
-    getTable({ query: getdatapath || `${hostname}/pw_v1?page=${cookies.page}` })
+    const target = { query: getdatapath || `${hostname}/pw_v1?page=${ Number(cookies.page) || 0}` }
+    // console.log(target);
+    getTable(target)
   }, [getdatapath, refreshTable])
 
   function getTable(q) {
     if (q.page) {
-      return Func.getData(`${hostname}/pw_v1?page=${q.page}`).then((val) => {
+      return Func.getData(`${hostname}/pw_v1?page=${Number(q.page) || 0}`).then((val) => {
         RenderTableData(val.payload)
       })
     }

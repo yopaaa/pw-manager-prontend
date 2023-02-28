@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { setModalContent, setrefreshTable, setgetdatapath } from "./js/HomeState"
 import Backup from "./Backup.jsx"
 import NewData from "./NewData.jsx"
+import Restore from "./Restore"
 
 const Navigation = () => {
   const dispatch = useDispatch()
@@ -17,7 +18,7 @@ const Navigation = () => {
 
   function SearchData(event) {
     event.preventDefault()
-    const path = `${hostname}/pw_v1/search?page=${cookies.page || 0}&q=${formSearch}&category=${selectcategory}`
+    const path = `${hostname}/pw_v1/search?page=${Number(cookies.page) || 0}&q=${formSearch}&category=${selectcategory}`
     dispatch(setgetdatapath(path))
   }
 
@@ -79,8 +80,13 @@ const Navigation = () => {
         </button>
 
         {/* RESTORE BUTTON */}
-        <button type="button" className="btn btn-success" onClick={(ev) => console.warn(true)}>
-          restore
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={(ev) => {
+            dispatch(setModalContent(<Restore />))
+          }}
+          > restore
         </button>
 
         {/* BACKUP BUTTON */}
