@@ -18,7 +18,9 @@ const Table = () => {
   const { refreshTable, getdatapath } = useSelector((state) => state.HomeState)
 
   useEffect(() => {
-    const target = { query: getdatapath || `${hostname}/pw_v1?page=${ Number(cookies.page) || 0}` }
+    // const target = { query: getdatapath || `${hostname}/pw_v1?page=${Number(cookies.page) || 0}` }
+    const target = { query: getdatapath || `${hostname}/pw_v1?page=0` }
+    console.log(target)
     // console.log(target);
     getTable(target)
   }, [getdatapath, refreshTable])
@@ -88,19 +90,20 @@ const Table = () => {
     )
     dispatch(setCategory(Array.from(new Set(categoryyy))))
     const { page, pageSize, total } = data
+    setCookie("page", page, { path: "/" })
+
     const countpage = Array.from({ length: Math.ceil(total / pageSize) }, (_, i) => i)
     setPaginationMessage(`Page '${page}' of '${Math.floor(total / pageSize)}', Total data '${total}'`)
     setPagination(
       countpage.map((x) => {
         const className = x == page ? "existpage" : ""
         return (
-          <button className={className} onClick={(ev) => getTable({ page: x })}>
+          <button className={className} onClick={(ev) => getTable({ page: `${x}` })}>
             {x}
           </button>
         )
       })
     )
-    setCookie("page", page, { path: "/" })
   }
 
   return (

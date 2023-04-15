@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { useCookies } from "react-cookie"
 import { useSelector, useDispatch } from "react-redux"
 import { setModalContent, setrefreshTable, setgetdatapath } from "./js/HomeState"
 import Backup from "./Backup.jsx"
@@ -12,13 +11,12 @@ const Navigation = () => {
   const [formSearch, setformSearch] = useState("")
   const [selectcategory, setselectcategory] = useState("")
 
-  const [cookies, setCookie] = useCookies(["user"])
 
   const hostname = process.env.REACT_APP_SERVER_END_POINT
 
   function SearchData(event) {
     event.preventDefault()
-    const path = `${hostname}/pw_v1/search?page=${Number(cookies.page) || 0}&q=${formSearch}&category=${selectcategory}`
+    const path = `${hostname}/pw_v1/search?page=0&q=${formSearch}&category=${selectcategory}`
     dispatch(setgetdatapath(path))
   }
 

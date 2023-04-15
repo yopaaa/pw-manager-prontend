@@ -33,7 +33,7 @@ const Func = {
           .catch((error) => {
             reject(error.message)
           })
-      }, 1000)
+      }, 500)
     })
   }
 }

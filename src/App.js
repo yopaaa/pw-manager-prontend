@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Home from "./components/Home/Home"
-import Root from "./components/Root"
+import Root from "./components/Root/Root"
 import SignIn from "./components/SignIn"
 import SignUp from "./components/SignUp"
 import "./style/body.css"

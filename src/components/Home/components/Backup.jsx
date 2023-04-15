@@ -30,7 +30,7 @@ const Backup = () => {
       .post(`${hostname}/pw_v1/actions/backup?`, { _id: dataId, code: verifyCode }, { responseType: "json" })
       .then((blobFileData) => {
         const datas = JSON.stringify(blobFileData.data.payload, null, 3)
-        console.log(datas)
+        // console.log(datas)
         const url = window.URL.createObjectURL(new Blob([datas]))
         // console.log(JSON.stringify(url));
         const link = document.createElement("a")

@@ -52,8 +52,30 @@ const NewData = () => {
           setMessage(error.response.data.error)
         })
     }, 1500)
+  }
 
-    // console.log(data);
+  function InsertMany(arr) {
+    arr.map((val) => {
+      const validateSite = val.site.includes("http") ? val.site : `https://${val.site}`
+      const data = {
+        name: val.user_name,
+        email: val.email,
+        site: validateSite,
+        pwd: val.password,
+        notes: val.notes,
+        tag: validateSite,
+        category: "old-Data",
+      }
+
+      axios
+        .post(`${hostname}/pw_v1`, data)
+        .then((value) => {
+          console.log(`Success indert ${val.user_name}`)
+        })
+        .catch((error) => {
+          console.log(`Failid indert ${val.user_name}`)
+        })
+    })
   }
 
   function resetAllState() {
@@ -196,7 +218,7 @@ const NewData = () => {
                   Func.hideOrShowElement("notesEditor")
                   seteditNotesToogle(document.getElementById("notesRender").classList.value == "d-none" ? "result" : "edit")
                 }}>
-                { editNotesToogle }
+                {editNotesToogle}
               </a>
             </nav>
 
