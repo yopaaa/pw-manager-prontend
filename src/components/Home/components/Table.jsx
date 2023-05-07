@@ -47,7 +47,7 @@ const Table = () => {
       datas.map((value) => {
         if (value.data.category) categoryyy.push(value.data.category)
         return (
-          <tr>
+          <tr key={value._id}>
             <td>{moment(value.updatedAt).startOf("minute").fromNow()}</td>
             <td>{value.data.name}</td>
             <td>

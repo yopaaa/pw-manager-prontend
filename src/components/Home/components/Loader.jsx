@@ -3,7 +3,7 @@ import '../../../style/Loader.css';
 
 const Loader = () => {
   return (
-    <div class="clock-loader"></div>
+    <div className="clock-loader"></div>
   )
 }
 

@@ -32,7 +32,7 @@ const SignIn = () => {
       navigate("/home")
     } catch (error) {
       document.querySelector("#errorMessage-login").classList.replace("d-none", "d-block")
-      setMessage(error.response.data.error)
+      setMessage(error.response ? error.response.data.error : error.message)
     }
   }
 

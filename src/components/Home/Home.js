@@ -31,7 +31,6 @@ const Home = () => {
 
       {/* TABLE */}
       <Table />
-      <hr />
 
       {/* backup */}
       <Modal isOpen={isModal} className="Modal-Root" overlayClassName="Modal-Root">

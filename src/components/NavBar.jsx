@@ -34,7 +34,9 @@ const NavBar = () => {
         </a>
       </nav>
       <span>{date.toLocaleString()}</span>
-      <img src="/icon.png" alt="icon" width="30px" />
+      <a href="/">
+        <img src="/icon.png" alt="icon" width="30px" style={{ cursor: "pointer" }} />
+      </a>
     </div>
   )
 }
